@@ -2,66 +2,17 @@ from pico2d import *
 import game_framework
 
 
-class Wall:
+class Map1:
     def __init__(self):
-        self.image = load_image("steel_block21X21.png")
-        self.x, self.y = 16, 180
+        self.image1 = load_image("vertex_steel_block.png")
+        self.image2 = load_image("vertical_steel_block.png")
+        self.image3 = load_image("vertical_steel_block.png")
+        self.x_h, self.y_h = 400, 180
+        self.x_v1, self.y_v = 138, 253
+        self.x_v2 = 938
         self.gap = 32
 
     def draw(self):
-        self.image.clip_draw(0, 0, 32, 32, self.x, self.y)
-
-
-wall1 = None
-
-
-def handle_events():
-    events = get_events()
-    for event in events:
-        if event.type == SDL_QUIT:
-            game_framework.quit()
-
-
-def enter():
-    global wall1
-
-    wall1 = Wall()
-
-
-def exit():
-    global wall1
-    del wall1
-
-
-def update():
-    pass
-
-
-def draw():
-    clear_canvas()
-    draw_world()
-    update_canvas()
-
-
-def draw_world():
-    wall1.draw()
-
-
-def pause():
-    pass
-
-
-def resume():
-    pass
-
-
-def test_self():
-    import sys
-    this_module = sys.modules['__main__']
-    pico2d.open_canvas()
-    game_framework.run(this_module)
-    pico2d.close_canvas()
-
-
-if __name__ == '__main__':
-    test_self()
+        self.image1.clip_draw(0, 0, 550, 25, self.x_h, self.y_h)
+        self.image2.clip_draw(0, 0, 25, 120, self.x_v1, self.y_v)
+        self.image3.clip_draw(0, 0, 25, 120, self.x_v2, self.y_v)

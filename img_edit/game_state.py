@@ -69,20 +69,21 @@ def handle_events():
 
 running = True
 ball = None
-ground = None
+first_map = None
 gr = 11
 dirx, diry, VELOCITY, MASS = 0, 0, 5, 5
 
 
 def enter():
-    global ball, running, ground
+    global ball, running, first_map
     ball = Ball()
+    first_map = map1.Map1()
     running = True
 
 
 def exit():
-    global ball, ground
-    del ball
+    global ball, first_map
+    del ball, first_map
 
 
 def update():
@@ -91,7 +92,7 @@ def update():
 
 def draw_world():
     ball.draw()
-    map1.draw_world()
+    first_map.draw()
 
 
 def draw():
