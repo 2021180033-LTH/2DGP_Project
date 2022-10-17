@@ -1,6 +1,9 @@
 from pico2d import *
 import game_framework
-import random
+import map1
+
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
 
 
 class Ball:
@@ -8,22 +11,41 @@ class Ball:
         self.image = load_image("ball.png")
         self.x, self.y = 400, 90
         self.frame = 0
+        self.isJump = 0
+        self.v = VELOCITY
+        self.m = MASS
+        self.jump_progress_v, self.jump_g = 15, 1
+        self.jump_last_v = -15
+        self.jump_y = self.y
 
     def update(self):
-        global dirx
-        self.x += dirx * 0.3
+        global dirx, diry, VELOCITY, MASS
+        self.x += dirx * 1.5
         if self.x > 800:
             self.x = 800
         elif self.x < 0:
             self.x = 0
 
+        if self.isJump > 0:
+            self.y += self.jump_progress_v
+            self.jump_progress_v = self.jump_progress_v - self.jump_g
+
+            if self.jump_last_v - 1 == self.jump_progress_v:
+                self.jump(0)
+                self.jump_progress_v = 15
+        delay(0.015)
+
     def draw(self):
         self.image.clip_draw(self.frame * 100, 0, 25, 25, self.x, self.y)
+
+    def jump(self, j):
+        self.isJump = j
 
 
 def handle_events():
     global running
-    global dirx
+    global dirx, diry
+
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -36,15 +58,8 @@ def handle_events():
             elif event.key == SDLK_LEFT:
                 dirx -= 1
             elif event.key == SDLK_UP:
-                for i in range(6):
-                    ball.y += 1
-                    delay(0.01)
-
-                delay(0.01)
-
-                for i in range(6):
-                    ball.y -= 1
-                    delay(0.01)
+                if ball.isJump == 0:
+                    ball.jump(1)
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 dirx -= 1
@@ -54,17 +69,19 @@ def handle_events():
 
 running = True
 ball = None
-dirx = 0
+ground = None
+gr = 11
+dirx, diry, VELOCITY, MASS = 0, 0, 5, 5
 
 
 def enter():
-    global ball, running
+    global ball, running, ground
     ball = Ball()
     running = True
 
 
 def exit():
-    global ball
+    global ball, ground
     del ball
 
 
@@ -74,6 +91,7 @@ def update():
 
 def draw_world():
     ball.draw()
+    map1.draw_world()
 
 
 def draw():
