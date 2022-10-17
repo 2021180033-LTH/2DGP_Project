@@ -9,17 +9,15 @@ WINDOW_HEIGHT = 600
 class Ball:
     def __init__(self):
         self.image = load_image("ball.png")
-        self.x, self.y = 400, 90
+        self.x, self.y = 400, 200
         self.frame = 0
         self.isJump = 0
-        self.v = VELOCITY
-        self.m = MASS
-        self.jump_progress_v, self.jump_g = 15, 1
-        self.jump_last_v = -15
+        self.jump_progress_v, self.jump_g = 12, 1
+        self.jump_last_v = -12
         self.jump_y = self.y
 
     def update(self):
-        global dirx, diry, VELOCITY, MASS
+        global dirx, diry
         self.x += dirx * 1.5
         if self.x > 800:
             self.x = 800
@@ -32,7 +30,7 @@ class Ball:
 
             if self.jump_last_v - 1 == self.jump_progress_v:
                 self.jump(0)
-                self.jump_progress_v = 15
+                self.jump_progress_v = 12
         delay(0.015)
 
     def draw(self):

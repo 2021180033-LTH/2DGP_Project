@@ -9,7 +9,7 @@ class Map1:
         self.image3 = load_image("vertical_steel_block.png")
         self.x_h, self.y_h = 400, 180
         self.x_v1, self.y_v = 138, 253
-        self.x_v2 = 938
+        self.x_v2 = 661.5
         self.gap = 32
 
     def draw(self):
